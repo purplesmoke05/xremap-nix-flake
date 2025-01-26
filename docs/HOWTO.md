@@ -22,16 +22,16 @@ For all examples in this section you can copy the code into a random `flake.nix`
 
 <details>
  <summary>
-  
+
   ## System module, no desktop environment
   </summary>
 
   A very simple configuration that globally maps CapsLock to Escape and Ctrl+U to Page Up can look like this:
-  
+
   ```nix
   # flake.nix
   {
-    inputs.xremap-flake.url = "github:xremap/nix-flake";
+    inputs.xremap-flake.url = "github:purplesmoke05/xremap-nix-flake";
     outputs = inputs@{ nixpkgs, ... }: {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -41,7 +41,7 @@ For all examples in this section you can copy the code into a random `flake.nix`
           {
             users.users.root.password = "hunter2";
             system.stateVersion = "24.05";
-  
+
             # Modmap for single key rebinds
             services.xremap.config.modmap = [
               {
@@ -49,7 +49,7 @@ For all examples in this section you can copy the code into a random `flake.nix`
                 remap = { "CapsLock" = "Esc"; }; # globally remap CapsLock to Esc
               }
             ];
-  
+
             # Keymap for key combo rebinds
             services.xremap.config.keymap = [
               {
@@ -69,14 +69,14 @@ For all examples in this section you can copy the code into a random `flake.nix`
 
 <details>
   <summary>
-   
+
    ## User module
    </summary>
 
   ```nix
   # flake.nix
   {
-    inputs.xremap-flake.url = "github:xremap/nix-flake";
+    inputs.xremap-flake.url = "github:purplesmoke05/xremap-nix-flake";
     outputs = inputs@{ nixpkgs, ... }: {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -89,7 +89,7 @@ For all examples in this section you can copy the code into a random `flake.nix`
               password = "hunter2";
               isNormalUser = true;
             };
-  
+
             system.stateVersion = "24.05";
             # This configures the service to only run for a specific user
             services.xremap = {
@@ -104,7 +104,7 @@ For all examples in this section you can copy the code into a random `flake.nix`
                 remap = { "CapsLock" = "Esc"; }; # globally remap CapsLock to Esc
               }
             ];
-  
+
             # Keymap for key combo rebinds
             services.xremap.config.keymap = [
               {
@@ -122,14 +122,14 @@ For all examples in this section you can copy the code into a random `flake.nix`
 
 <details>
   <summary>
-   
-  ## Systemwide example with X feature for application-specific remaps 
+
+  ## Systemwide example with X feature for application-specific remaps
   </summary>
 
   ```nix
   # flake.nix
   {
-    inputs.xremap-flake.url = "github:xremap/nix-flake";
+    inputs.xremap-flake.url = "github:purplesmoke05/xremap-nix-flake";
     outputs = inputs@{ nixpkgs, ... }: {
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
@@ -145,15 +145,15 @@ For all examples in this section you can copy the code into a random `flake.nix`
                 isNormalUser = true;
                 extraGroups = [ "wheel" ];
               };
-  
+
               system.stateVersion = "24.05";
-  
+
               services.xserver = {
                 enable = true;
                 desktopManager.xfce.enable = true; # xfce is just an example
               };
               environment.systemPackages = [ pkgs.kitty ];
-  
+
               /* Run a single one-shot service that allows root's services to access user's X session */
               systemd.user.services.set-xhost = {
                 description = "Run a one-shot command upon user login";
@@ -162,7 +162,7 @@ For all examples in this section you can copy the code into a random `flake.nix`
                 script = "xhost +SI:localuser:root";
                 environment.DISPLAY = ":0.0"; # NOTE: This is hardcoded for this flake
               };
-  
+
               /* Enable X11 feature support */
               services.xremap.withX11 = true;
               # Modmap for single key rebinds
@@ -172,7 +172,7 @@ For all examples in this section you can copy the code into a random `flake.nix`
                   remap = { "CapsLock" = "Esc"; }; # globally remap CapsLock to Esc
                 }
               ];
-  
+
               # Keymap for key combo rebinds
               services.xremap.config.keymap = [
                 {
@@ -192,7 +192,7 @@ For all examples in this section you can copy the code into a random `flake.nix`
 
 ## Non-NixOS and home-manager
 
-Since on non-NixOS configurations, the environment outside the user cannot be controlled (e.g. home-manager cannot add the user to `uinput`), additional steps may be needed. See [upstream](https://github.com/k0kubun/xremap) for more information.
+Since on non-NixOS configurations, the environment outside the user cannot be controlled (e.g. home-manager cannot add the user to `uinput`), additional steps may be needed. See [upstream](https://github.com/purplesmoke05/xremap) for more information.
 
 TODO
 
@@ -227,7 +227,7 @@ There are three categories of options:
     * `package` – which package for xremap to use. Useful if you want to somehow override the flake-provided package.
     * `debug` – enables debug logging for xremap (off by default)
 
-3. Options that define xremap's config. See [upstream](https://github.com/k0kubun/xremap) for more options.
+3. Options that define xremap's config. See [upstream](https://github.com/purplesmoke05/xremap) for more options.
 
     They are defined in either `services.xremap.config` as a Nix attrset or in `services.xremap.yamlConfig` as raw YAML text.
 
@@ -284,4 +284,4 @@ Not (yet?) implemented, see #49.
 
 ## Something else
 
-Feel free to submit an [issue](https://github.com/xremap/nix-flake/issues) or reach out to the main contributor of the repo via any other means.
+Feel free to submit an [issue](https://github.com/purplesmoke05/xremap-nix-flake/issues) or reach out to the main contributor of the repo via any other means.

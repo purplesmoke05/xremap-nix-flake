@@ -1,6 +1,6 @@
 # What this is
 
-This is a [Nix flake](https://nixos.wiki/wiki/Flakes) that installs and configures [xremap](https://github.com/k0kubun/xremap).
+This is a [Nix flake](https://nixos.wiki/wiki/Flakes) that installs and configures [xremap](https://github.com/purplesmoke05/xremap).
 
 Flake allows running xremap as a system-wide service and as a user service (controlled by `services.xremap.serviceMode` option).
 
